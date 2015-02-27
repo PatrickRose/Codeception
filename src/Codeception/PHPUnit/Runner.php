@@ -25,12 +25,14 @@ class Runner extends \PHPUnit_TextUI_TestRunner
     protected $defaultArguments = array(
         'report' => false,
     );
+    private $backupGlobals;
 
-    public function __construct()
+    public function __construct($passedOptions = array())
     {
         $this->config  = Configuration::config();
         $this->logDir = Configuration::outputDir(); // prepare log dir
         $this->phpUnitOverriders();
+        $this->backupGlobals = isset($passedOptions['backupGlobals']) ? $passedOptions['backupGlobals'] : true;
         parent::__construct();
     }
 
@@ -96,7 +98,10 @@ class Runner extends \PHPUnit_TextUI_TestRunner
         }
 
         $suite->injectFilter($filterFactory);
-
+        if (method_exists($suite, 'setBackupGlobals'))
+        {
+            $suite->setBackupGlobals($this->backupGlobals);
+        }
         $suite->run($result);
         unset($suite);
 

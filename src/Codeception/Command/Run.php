@@ -103,6 +103,7 @@ class Run extends Command
                  new InputOption('skip-group', 'sg', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Skip selected groups'),
                  new InputOption('env', '', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Run tests in selected environments.'),
                  new InputOption('fail-fast', 'f', InputOption::VALUE_NONE, 'Stop after first failure'),
+                 new InputOption('no-globals-backup', '', InputOption::VALUE_NONE, 'Don\'t back up the global array'),
              )
         );
 
@@ -159,7 +160,10 @@ class Run extends Command
         if ($this->options['coverage-xml'] or $this->options['coverage-html'] or $this->options['coverage-text']) {
             $this->options['coverage'] = true;
         }
-
+        if ($this->options['no-globals-backup'])
+        {
+            $userOptions['backupGlobals'] = false;
+        }
 
         $suite = $input->getArgument('suite');
         $test  = $input->getArgument('test');

@@ -46,7 +46,8 @@ class Codecept
         'env' => null,
         'fail-fast' => false,
         'verbosity' => 1,
-        'interactive' => true
+        'interactive' => true,
+        'no-backup-globals' => false,
     );
 
     /**

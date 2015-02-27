@@ -205,4 +205,10 @@ class RunCest
         $I->seeInShellOutput('RuntimeException');
 
     }
+
+    public function runTestWithNoBackupGlobals(\CliGuy $I)
+    {
+        $I->executeCommand('run unit GlobalsTest --no-globals-backup -v --no-exit');
+        $I->dontSeeInShellOutput('There was 1 failure');
+    }
 }
